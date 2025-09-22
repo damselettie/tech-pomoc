@@ -75,15 +75,7 @@
                         <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="room_number" class="form-label">Numer sali</label>
-                        <input type="text" class="form-control" id="room_number" name="room_number" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="computer_number" class="form-label">Numer komputera</label>
-                        <input type="text" class="form-control" id="computer_number" name="computer_number" required>
-                    </div>
+            
 
                     <div class="mb-3">
                         <label for="reporter_name" class="form-label">Imię zgłaszającego</label>
