@@ -15,7 +15,7 @@ class IssuesTable
         return $table
             ->columns([
                 TextColumn::make('title')->label('Nazwa'),
-                TextColumn::make('description')->label('Opis')->limit(50),
+                
                 TextColumn::make('room_number')->label('Numer pokoju'),
                 TextColumn::make('computer_number')->label('Numer komputera'),
                 TextColumn::make('reporter_name')->label('Zgłaszający'),
