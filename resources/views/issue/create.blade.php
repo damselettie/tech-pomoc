@@ -88,12 +88,12 @@
                     @endphp
 
                     <div class="mb-3">
-                        <label for="recipients" class="form-label">Wyślij do</label>
-                        <select name="recipients[]" id="recipients" class="form-control" multiple required>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->role }})</option>
-                            @endforeach
-                        </select>
+                <label for="role" class="form-label">Wybierz rolę</label>
+    <select name="role" id="role" class="form-control" required>
+        <option value="informatyk">Informatyk</option>
+        <option value="sprzatacz">Sprzątacz</option>
+        <option value="dyrektor">Dyrektor</option>
+    </select>
                         <small class="form-text text-muted">Przytrzymaj Ctrl (lub Cmd), by zaznaczyć wielu odbiorców.</small>
                     </div>
 

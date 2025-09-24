@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Filament\Resources\Issues\Tables;
 
 use Filament\Tables\Table;
@@ -15,28 +14,30 @@ class IssuesTable
         return $table
             ->columns([
                 TextColumn::make('title')->label('Nazwa'),
-                
                 TextColumn::make('room_number')->label('Numer pokoju'),
                 TextColumn::make('computer_number')->label('Numer komputera'),
                 TextColumn::make('reporter_name')->label('Zgłaszający'),
                 TextColumn::make('status')->label('Status'),
                 TextColumn::make('created_at')->label('Utworzono')->dateTime('d.m.Y H:i'),
-        TextColumn::make('recipients')
-    ->label('Odbiorcy')
-    ->formatStateUsing(function ($state, $record) {
-        // $record to pełny model Issue z eager loaded recipients
-        $recipients = $record->recipients;
+                
+                TextColumn::make('recipients')
+                    ->label('Odbiorcy')
+                    ->formatStateUsing(function ($state, $record) {
+                        // $record to pełny model Issue z eager loaded recipients
+                        $recipients = $record->recipients;
 
-        if ($recipients->isEmpty()) {
-            return '—';
-        }
+                        if ($recipients->isEmpty()) {
+                            return '—';
+                        }
 
-        return $recipients->map(fn($user) => $user->name . ' (' . $user->role . ')')->implode(', ');
-    })
-    ->limit(50)
-    ->wrap(),
-
-
+                        // Pobierz unikalne role przypisane do odbiorców, usuwając duplikaty
+                        return $recipients->map(fn($user) => $user->role)  // Pobierz rolę użytkownika
+                            ->unique()  // Usuwamy duplikaty
+                            ->implode(', ')  // Łączymy unikalne role w ciąg tekstowy
+                            ?: 'Brak roli';  // Jeśli brak ról, wyświetl "Brak roli"
+                    })
+                    ->limit(50)
+                    ->wrap(),
             ])
             ->actions([
                 Action::make('markAsDone')
@@ -51,7 +52,6 @@ class IssuesTable
                     ->requiresConfirmation()
                     ->action(fn ($record) => $record->delete()),
             ])
-            
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
@@ -59,3 +59,4 @@ class IssuesTable
             ]);
     }
 }
+ 

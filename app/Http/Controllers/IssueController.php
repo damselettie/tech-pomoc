@@ -1,37 +1,39 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Issue;
+use App\Models\User;
 
 class IssueController extends Controller
 {
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'room_number' => 'required|string|max:50',
-            'computer_number' => 'required|string|max:50',
-            'reporter_name' => 'required|string|max:255',
-            'recipients' => 'required|array',
-            'recipients.*' => 'exists:users,id',
-        ]);
+   public function store(Request $request)
+{
+    // Walidacja danych wejściowych
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'reporter_name' => 'required|string|max:255',
+        'role' => 'required|in:informatyk,sprzatacz,dyrektor',
+    ]);
 
-        // Tworzymy zgłoszenie bez pola recipients bo to relacja many-to-many
-        $issue = Issue::create([
-            'title' => $validated['title'],
-            'description' => $validated['description'],
-            'room_number' => $validated['room_number'],
-            'computer_number' => $validated['computer_number'],
-            'reporter_name' => $validated['reporter_name'],
-        ]);
+    // Tworzenie nowego zgłoszenia
+    $issue = Issue::create([
+        'title' => $validated['title'],
+        'description' => $validated['description'],
+        'reporter_name' => $validated['reporter_name'],
+    ]);
 
-        // Sync odbiorców (userów)
-        $issue->recipients()->sync($validated['recipients']);
+    // Pobieranie użytkowników z wybraną rolą
+    $users = User::where('role', $validated['role'])->get();
 
-        // Przekierowanie z komunikatem sukcesu
-        return redirect()->back()->with('success', 'Zgłoszenie zostało dodane i przypisane do odbiorców!');
+    // Przypisanie użytkowników do zgłoszenia
+    foreach ($users as $user) {
+        $issue->recipients()->attach($user->id);
     }
+
+    // Przekierowanie z komunikatem sukcesu
+    return redirect()->back()->with('success', 'Zgłoszenie zostało dodane i przypisane do odpowiednich użytkowników.');
+}
+    
 }

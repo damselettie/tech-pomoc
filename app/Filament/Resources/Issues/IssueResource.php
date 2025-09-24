@@ -59,16 +59,20 @@ public static function getEloquentQuery(): Builder
 {
     $user = Filament::auth()->user();
 
+    // Rozpoczynamy zapytanie
     $query = parent::getEloquentQuery()->with('recipients');
 
+    // Jeśli użytkownik jest administratorem, wyświetl wszystkie zgłoszenia
     if ($user->is_admin) {
         return $query;
     }
 
+    // Jeśli użytkownik nie jest administratorem, filtrujemy tylko zgłoszenia, w których jest przypisany jako odbiorca
     return $query->whereHas('recipients', function ($query) use ($user) {
         $query->where('users.id', $user->id);
     });
 }
+
 
 
 
