@@ -88,7 +88,8 @@
                     @endphp
 
                     <div class="mb-3">
-                <label for="role" class="form-label">Wybierz rolę</label>
+                
+                +-    <label for="role" class="form-label">Wybierz rolę</label>
     <select name="role" id="role" class="form-control" required>
         <option value="informatyk">Informatyk</option>
         <option value="sprzatacz">Sprzątacz</option>
