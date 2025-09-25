@@ -6,7 +6,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-
+use Carbon\Carbon; // dodaj import Carbon
+use Illuminate\Support\Facades\Log;
 class IssuesTable
 {
     public static function configure(Table $table): Table
@@ -14,38 +15,51 @@ class IssuesTable
         return $table
             ->columns([
                 TextColumn::make('title')->label('Nazwa'),
-                TextColumn::make('room_number')->label('Numer pokoju'),
-                TextColumn::make('computer_number')->label('Numer komputera'),
                 TextColumn::make('reporter_name')->label('Zgłaszający'),
                 TextColumn::make('status')->label('Status'),
-                TextColumn::make('created_at')->label('Utworzono')->dateTime('d.m.Y H:i'),
-                
+
+                TextColumn::make('created_at')
+                    ->label('Utworzono')
+                    ->formatStateUsing(fn($state) => Carbon::parse($state)->diffForHumans()),
+
+                TextColumn::make('done_at')
+                    ->label('Wykonano')
+                    ->formatStateUsing(fn($state) => $state ? Carbon::parse($state)->diffForHumans() : '—'),
+
                 TextColumn::make('recipients')
                     ->label('Odbiorcy')
                     ->formatStateUsing(function ($state, $record) {
-                        // $record to pełny model Issue z eager loaded recipients
                         $recipients = $record->recipients;
 
                         if ($recipients->isEmpty()) {
                             return '—';
                         }
 
-                        // Pobierz unikalne role przypisane do odbiorców, usuwając duplikaty
-                        return $recipients->map(fn($user) => $user->role)  // Pobierz rolę użytkownika
-                            ->unique()  // Usuwamy duplikaty
-                            ->implode(', ')  // Łączymy unikalne role w ciąg tekstowy
-                            ?: 'Brak roli';  // Jeśli brak ról, wyświetl "Brak roli"
+                        return $recipients->map(fn($user) => $user->role)
+                            ->unique()
+                            ->implode(', ') ?: 'Brak roli';
                     })
                     ->limit(50)
                     ->wrap(),
             ])
+            
             ->actions([
                 Action::make('markAsDone')
-                    ->label('Zrobione')
-                    ->color('success')
-                    ->action(fn ($record) => $record->update(['status' => 'done']))
-                    ->visible(fn ($record) => $record->status !== 'done'),
+    ->label('Zrobione')
+    ->color('success')
+    ->action(function ($record) {
+        Log::info('MarkAsDone clicked for ID: ' . $record->id);
 
+        if ($record->status === 'nowe') {
+            $record->update([
+                'status' => 'done',
+                'done_at' => now(),
+            ]);
+
+            Log::info('Updated to done for ID: ' . $record->id);
+        }
+    })
+    ->visible(fn ($record) => $record->status === 'nowe'),
                 Action::make('deleteIssue')
                     ->label('Usuń')
                     ->color('danger')
@@ -59,4 +73,3 @@ class IssuesTable
             ]);
     }
 }
- 

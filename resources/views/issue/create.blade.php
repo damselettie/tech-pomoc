@@ -67,19 +67,19 @@
 
                     <div class="mb-3">
                         <label for="title" class="form-label">Nazwa</label>
-                        <input type="text" class="form-control" id="title" name="title" required>
+                        <input type="text" placeholder="Nazwa problemu" class="form-control" id="title" name="title" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="description" class="form-label">Opis</label>
-                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                        <textarea placeholder="Szczegółowy opis" class="form-control" id="description" name="description" rows="3" required></textarea>
                     </div>
 
             
 
                     <div class="mb-3">
                         <label for="reporter_name" class="form-label">Imię zgłaszającego</label>
-                        <input type="text" class="form-control" id="reporter_name" name="reporter_name" required>
+                        <input type="text" placeholder="Twoje imię" class="form-control" id="reporter_name" name="reporter_name" required>
                     </div>
 
                     @php

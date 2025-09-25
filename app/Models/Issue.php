@@ -15,6 +15,7 @@ class Issue extends Model
         'reporter_name',
         'status',
         'recipients',
+           'done_at',
     ];
   
 
