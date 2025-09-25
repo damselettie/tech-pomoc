@@ -10,6 +10,8 @@ use Carbon\Carbon; // dodaj import Carbon
 use Illuminate\Support\Facades\Log;
 class IssuesTable
 {
+
+    
     public static function configure(Table $table): Table
     {
         return $table
@@ -46,6 +48,7 @@ class IssuesTable
             ->actions([
                 Action::make('markAsDone')
     ->label('Zrobione')
+   
     ->color('success')
     ->action(function ($record) {
         Log::info('MarkAsDone clicked for ID: ' . $record->id);
@@ -71,5 +74,7 @@ class IssuesTable
                     DeleteBulkAction::make(),
                 ]),
             ]);
+            
     }
+    
 }

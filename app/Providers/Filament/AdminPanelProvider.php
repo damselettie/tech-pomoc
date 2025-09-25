@@ -70,4 +70,5 @@ class AdminPanelProvider extends PanelProvider
                 InProgressIssueResource::class,
             ]);
     }
+    
 }

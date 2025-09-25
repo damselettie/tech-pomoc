@@ -3,17 +3,35 @@
 namespace App\Filament\Resources\Issues\DoneIssues;
 
 use App\Filament\Resources\Issues\IssueResource;
+use App\Models\Issue;
 use Illuminate\Database\Eloquent\Builder;
-// Spróbuj importu Heroicon jeśli istnieje
-use Filament\Support\Icons\Heroicon;  
+use Filament\Support\Icons\Heroicon;
 use BackedEnum;
+use Filament\Facades\Filament;
+use Filament\Tables\Table;
 
 class DoneIssueResource extends IssueResource
 {
-    // Jeżeli Heroicon istnieje, to:
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCheckCircle;
-    // Albo jeśli nie:
-    // protected static string|null $navigationIcon = 'heroicon-o-check-circle';
+
+public static function table(Table $table): Table
+{
+    $user = Filament::auth()->user();
+
+    return parent::table($table)
+        ->query(function ($query) use ($user) {
+            $query->where('status', 'done');  // tutaj filtr po statusie z bazy
+
+            if (! $user->is_admin) {
+                $query->whereHas('recipients', function ($q) use ($user) {
+                    $q->where('users.id', $user->id);
+                });
+            }
+
+            return $query;
+        });
+}
+
 
     public static function getNavigationLabel(): string
     {
@@ -27,8 +45,18 @@ class DoneIssueResource extends IssueResource
 
     public static function getEloquentQuery(): Builder
     {
-        $query = parent::getEloquentQuery();
-        $query = $query->with('recipients');
-        return $query->where('status', 'done');
+         $query = parent::getEloquentQuery();
+
+    $query->where('status', 'done');
+
+    $user = Filament::auth()->user();
+
+    if (! $user->is_admin) {
+        $query->whereHas('recipients', function ($q) use ($user) {
+            $q->where('users.id', $user->id);
+        });
+    }
+
+    return $query;
     }
 }

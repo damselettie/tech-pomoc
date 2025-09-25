@@ -55,6 +55,11 @@ class ChangePassword extends Page implements Forms\Contracts\HasForms
     public $new_password;
     public $new_password_confirmation;
 
+     public static function getNavigationGroup(): ?string
+        {
+            return __('settings'); // Nazwa grupy/menu głównego
+        }
+
     // Definicja schematu formularza (Filament v3)
     public function getFormSchema(): array
     {

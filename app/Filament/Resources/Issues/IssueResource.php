@@ -35,6 +35,12 @@ class IssueResource extends Resource
     return 'Issues'; // Nazwa grupy/menu głównego
 }
 
+    public static function getEloquentQuery(): Builder
+    {
+       return parent::getEloquentQuery()->where('status','done');
+    }
+
+
     public static function table(Table $table): Table
     {
         return IssuesTable::configure($table);
@@ -46,6 +52,7 @@ class IssueResource extends Resource
             //
         ];
     }
+    
 
     public static function getPages(): array
     {
@@ -55,25 +62,22 @@ class IssueResource extends Resource
             'edit' => EditIssue::route('/{record}/edit'),
         ];
     }
-public static function getEloquentQuery(): Builder
-{
-    $user = Filament::auth()->user();
 
-    // Rozpoczynamy zapytanie
-    $query = parent::getEloquentQuery()->with('recipients');
+// public static function getEloquentQuery(): Builder
+// {
+//     $user = Filament::auth()->user();
 
-    // Jeśli użytkownik jest administratorem, wyświetl wszystkie zgłoszenia
-    if ($user->is_admin) {
-        return $query;
-    }
+//     $query = Issue::query()->with('recipients');
 
-    // Jeśli użytkownik nie jest administratorem, filtrujemy tylko zgłoszenia, w których jest przypisany jako odbiorca
-    return $query->whereHas('recipients', function ($query) use ($user) {
-        $query->where('users.id', $user->id);
-    });
+//     if ($user->is_admin) {
+//         return $query;
+//     }
+
+//     return $query->whereHas('recipients', function ($query) use ($user) {
+//         $query->where('users.id', $user->id);
+//     });
+// }
+
 }
 
-
-
-
-    }
+    
