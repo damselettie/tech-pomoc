@@ -45,11 +45,24 @@ class ChangePassword extends Page implements Forms\Contracts\HasForms
 
    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $title = 'Zmień hasło';
-    protected static ?string $navigationLabel = 'Zmień hasło';
-    protected static ?int $navigationSort = 99;
+protected static ?string $title = null;
+protected static ?string $navigationLabel = null;
+protected static ?int $navigationSort = 99;
 
-    protected string $view = 'filament.pages.change-password';
+protected string $view = 'filament.pages.change-password';
+
+// getTitle() jest niestatyczna
+public function getTitle(): string
+{
+    return __('admin.issue.ChangePasswordLabelTitle');
+}
+
+// getNavigationLabel() jest statyczna
+public static function getNavigationLabel(): string
+{
+    return __('admin.issue.ChangePasswordLabelTitle');
+}
+
 
     public $current_password;
     public $new_password;
@@ -65,18 +78,18 @@ class ChangePassword extends Page implements Forms\Contracts\HasForms
     {
         return [
             Forms\Components\TextInput::make('current_password')
-                ->label('Obecne hasło')
+                ->label(__('admin.issue.current_password'))
                 ->password()
                 ->required(),
 
             Forms\Components\TextInput::make('new_password')
-                ->label('Nowe hasło')
+                ->label(__('admin.issue.new_password'))
                 ->password()
                 ->required()
                 ->minLength(8),
 
             Forms\Components\TextInput::make('new_password_confirmation')
-                ->label('Potwierdź nowe hasło')
+                ->label(__('admin.issue.new_password_confirmation'))
                 ->password()
                 ->required()
                 ->same('new_password'),
@@ -113,7 +126,7 @@ class ChangePassword extends Page implements Forms\Contracts\HasForms
         $user->save();
 
         Notification::make()
-            ->title('Hasło pomyślnie zmienione')
+            ->title(__('admin.issue.changedPasswordConfirmation'))
             ->success()
             ->send();
         $this->form->fill(); // reset formularza

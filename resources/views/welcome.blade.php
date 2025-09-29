@@ -5,7 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
-
+    <a href="{{ url('/lang/pl') }}">🇵🇱 Polski</a>
+<a href="{{ url('/lang/en') }}">🇬🇧 English</a>
+<a href="{{ url('/lang/de') }}">🇩🇪 Deutsch</a>
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />

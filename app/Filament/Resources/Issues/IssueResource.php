@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Facades\Filament;
 
 
+
 class IssueResource extends Resource
 {
     protected static ?string $model = Issue::class;
@@ -29,17 +30,19 @@ class IssueResource extends Resource
     {
         return IssueForm::configure($schema);
     }
+public static function getTableQuery(): Builder
+{
+    $query = parent::getTableQuery()
+        ->where('status', '=', 'nowe');
 
+    return $query;
+}
     public static function getNavigationGroup(): ?string
 {
     return 'Issues'; // Nazwa grupy/menu głównego
 }
 
-    public static function getEloquentQuery(): Builder
-    {
-       return parent::getEloquentQuery()->where('status','done');
-    }
-
+   
 
     public static function table(Table $table): Table
     {

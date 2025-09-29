@@ -15,6 +15,25 @@ Route::get('/', function () {
 });
 
 
+Route::get('/set-locale/{locale}', function ($locale) {
+    $availableLocales = ['pl', 'en', 'de'];
+
+    if (in_array($locale, $availableLocales)) {
+        session(['locale' => $locale]);
+    }
+
+    return redirect()->back();
+})->name('setLocale');
+
+Route::get('/language/switch/{locale}', function ($locale) {
+    // Save selected locale in session
+    session(['locale' => $locale]);
+
+    // Redirect back to previous page
+    return redirect()->back();
+})->name('language.switch');
+
+
 // Route::get('/report', function () {
 //     return view('report', ['rooms' => Room::all()]);
 // });

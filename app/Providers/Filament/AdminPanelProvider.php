@@ -22,7 +22,10 @@ use App\Filament\Resources\Issues\DoneIssues\DoneIssueResource;
 use App\Filament\Resources\Issues\InProgress\InProgressIssueResource;
 use Filament\Filament;
 use App\Filament\Resources\Issues\IssueResource;
+use Filament\Support\Facades\FilamentView;
+use Illuminate\Support\Facades\Blade; 
 
+use Illuminate\Support\ServiceProvider;
 
 
 class AdminPanelProvider extends PanelProvider
@@ -60,6 +63,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                \App\Http\Middleware\SetLocale::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
@@ -70,5 +74,12 @@ class AdminPanelProvider extends PanelProvider
                 InProgressIssueResource::class,
             ]);
     }
-    
+
+        public function boot(): void
+        {
+             FilamentView::registerRenderHook(
+                'panels::global-search.after',
+                 fn (): string => view('filament.components.language-switcher')->render(),
+            );
+    }
 }
