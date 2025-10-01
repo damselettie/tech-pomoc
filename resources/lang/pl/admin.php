@@ -17,9 +17,9 @@ return [
          'changedPasswordConfirmation' => 'Twoje hasło zostało zmienione',
          'ChangePasswordLabelTitle' => 'Zmień hasło',
          'ChangePasswordButton' => 'Zmień hasło',
-         'IssueTitle' => 'Zgłoszenia',
-         'InProgressTitle' => 'W trakcie',
-         'DoneTitle' => 'Zrobione',
+         'IssueTitle' => 'Wszystkie zgłoszenia',
+         'InProgressTitle' => 'Do zrobienia',
+         'DoneTitle' => 'Wykonane',
          'UsersTitle' => 'Użytkownicy',
          'Role' => 'Rola'
     ],
