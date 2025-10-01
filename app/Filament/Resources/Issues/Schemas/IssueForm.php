@@ -18,13 +18,13 @@ class IssueForm
                 ->required()
                 ->label('Opis'),
 
-            Forms\Components\TextInput::make('room_number')
-                ->required()
-                ->label('Numer pokoju'),
-
-            Forms\Components\TextInput::make('computer_number') // nowy input
-                ->required()
-                ->label('Numer komputera'),
+                Forms\Components\Select::make('status')
+    ->options([
+        'nowe' => 'Nowe',
+        'done' => 'Zrobione',
+    ])
+    ->required()
+    ->label('Status'),
 
             Forms\Components\TextInput::make('reporter_name')
     ->required()
