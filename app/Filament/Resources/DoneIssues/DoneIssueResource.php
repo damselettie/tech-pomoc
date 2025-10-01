@@ -42,12 +42,12 @@ public static function table(Table $table): Table
 
     public static function getNavigationLabel(): string
     {
-        return 'Zrobione';
+        return __('admin.issue.DoneTitle');
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return 'Issues';
+        return __('admin.issue.IssueTitle');
     }
    public static function getEloquentQuery(): Builder
     {

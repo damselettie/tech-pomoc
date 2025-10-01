@@ -24,7 +24,16 @@ class IssueResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $recordTitleAttribute = 'Issue';
+   public static function getNavigationLabel(): string
+    {
+        return __('admin.issue.IssueTitle');
+    }
+
+
+        public static function getRecordTitleAttribute(): string
+{
+    return __('admin.issue.IssueTitle');
+}
 
     public static function form(Schema $schema): Schema
     {
@@ -39,7 +48,7 @@ public static function getTableQuery(): Builder
 }
     public static function getNavigationGroup(): ?string
 {
-    return 'Issues'; // Nazwa grupy/menu głównego
+    return __('admin.issue.IssueTitle'); // Nazwa grupy/menu głównego
 }
 
    

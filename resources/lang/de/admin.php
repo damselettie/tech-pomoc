@@ -16,7 +16,13 @@ return [
         'new_password_confirmation' => 'Bestätigung des neuen Passworts',
          'changedPasswordConfirmation' => 'Ihr Passwort wurde geändert!',
          'ChangePasswordLabelTitle' => 'Passwort ändern',
-         'ChangePasswordButton'=> 'Passwort ändern'
+         'ChangePasswordButton'=> 'Passwort ändern',
+         'IssueTitle'=> 'Probleme',
+         'InProgressTitle' => 'Während',
+         'DoneTitle' => 'Erledigt',
+         'UsersTitle' => 'Benutzer',
+         'Role' => 'Rolle',
+         
     ],
     'title' => [
         'name' => 'Name',

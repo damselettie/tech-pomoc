@@ -16,12 +16,12 @@ class InProgressIssueResource extends IssueResource
 
     public static function getNavigationLabel(): string
     {
-        return 'W trakcie';
+        return __('admin.issue.InProgressTitle');
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return 'Issues';
+        return __('admin.issue.IssueTitle');
     }
 
     public static function getEloquentQuery(): Builder

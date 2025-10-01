@@ -32,6 +32,12 @@ class UserResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
     protected static ?string $recordTitleAttribute = 'name';
 
+        public static function getNavigationLabel(): string
+    {
+        return __('admin.issue.UsersTitle');
+    }
+
+
     public static function form(Schema $schema): Schema
     {
         return $schema->schema([
@@ -64,12 +70,16 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->sortable(),
-                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('id')
+                ->sortable(),
+                Tables\Columns\TextColumn::make('name')->sortable()
+                ->searchable()
+                ->label(__('admin.issue.title')),
                 Tables\Columns\TextColumn::make('email')->sortable()->searchable(),
                 Tables\Columns\IconColumn::make('is_admin')->boolean()->label('Admin'),
-                Tables\Columns\TextColumn::make('role')->sortable(),
-                Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
+                Tables\Columns\TextColumn::make('role')->sortable()
+                     ->label(__('admin.issue.Role')),
+                Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable()->label(__('admin.issue.created_at')),
             ])
             ->actions([
           

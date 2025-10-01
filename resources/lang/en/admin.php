@@ -17,6 +17,11 @@ return [
         'changedPasswordConfirmation' => 'Your password has been changed!',
         'ChangePasswordLabelTitle' => 'Change Password',
         'ChangePasswordButton' => 'Change Password',
+        'IssueTitle' => 'Issues',
+        'InProgressTitle' => 'In Progress',
+        'DoneTitle' => 'Done',
+        'UsersTitle' => 'Users',
+        'Role' => 'Role',
     ],
     'title' => [
         'name' => 'Name',
