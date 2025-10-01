@@ -18,8 +18,6 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use App\Filament\Resources\Issues\DoneIssues\DoneIssueResource;
-use App\Filament\Resources\Issues\InProgress\InProgressIssueResource;
 use Filament\Filament;
 use App\Filament\Resources\Issues\IssueResource;
 use Filament\Support\Facades\FilamentView;
@@ -69,9 +67,7 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->resources([
-                IssueResource::class,
-                DoneIssueResource::class,
-                InProgressIssueResource::class,
+           
             ]);
     }
 
